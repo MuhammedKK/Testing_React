@@ -1,0 +1,81 @@
+/* To Parsing arguments to function handler */
+
+- there is 3 ways to do that like :-
+    -       // inc = () => { // Way 1 To parsing Argument To Function Handler
+            //     this.increseProduct(2)
+            // }
+    -   way 2 : by using bind() for EX => this.functionName.bind(this, Arguments);
+    -   Way 3 : by calling function that call your function for EX => () => this.functionName(Args)
+
+/* To Reuse Your Component */
+
+- To Reuse The Component Just Call it in your current component and it will be show in it For EX
+
+class myComp extends Component {
+    
+    render() {
+        return(
+            // to set several elements in render u must use this element to contain the hole elements
+            <React.fragment>
+                // Your Hole elements Like => HTML Ele, JS Expression, Other Components
+            </React.fragment>
+        )
+    }
+}
+
+/* To Send Data From Component To Another */
+
+- you must use (this.props) => that make U access to data that send to anothre component For EX =>
+
+== Data Sent => 
+    {this.state.products.map(pro => {
+        return <Product key={pro.id} product={pro}/> // product={pro} this is the obj that i sent
+    })}
+== Receive Data =>
+    state = { // And i catch it here
+        "product-id" : this.props.product.id,
+        "productName": this.props.product.name,
+        "cats" : ["meals", "chickens", "fish"],
+    };
+
+/* Hot To Passing Children to Component */
+
+- You Can do that by self close component's Tag and put element in it that will show in component as children object for EX =>
+
+    return <Product key={pro.id} product={pro}>
+        <h3>{pro.id}</h3> // This Is Children's Obj Data
+    </Product>
+
+/* Diffrances From State & Props */
+
+State =>
+    - local Data Special To The Component cannot ny other component access to it
+    - you can not update it directly , you must use setState({ // Your Proprites })
+    - only just the current component can access on it
+
+Props => 
+    - Data that sent from specific component to anothre component
+    - you can just read it & cannot update it
+    - you can access props througth any component and use it in your wanted component
+    - it's global for your components
+
+/* Rising Event */
+
+- It's a way to access event handler from component to anothre by doing this trick by creating the event handler send it to the component
+then Receive the event handler from the target component and trigger it in the component for EX =>
+
+1- The Event Handler =>
+    Delete = (product) => {
+        // clone & Edit
+        let newProds = this.state.products.filter(prop => {
+            return prop.id !== product.id
+        });
+        // set New State
+        this.setState({products: newProds});
+    }
+2- Send it to the component =>
+    return <Product key={pro.id} product={pro} onDelete={this.Delete} onUpdate={this.update}> // Here onDelete={this.Delete}
+
+3- Receive it in the target component and trigger it =>
+    <button className="delete btn btn-danger m-2" onClick={() => this.props.onDelete(this.props.product)}>Delete</button>
+
